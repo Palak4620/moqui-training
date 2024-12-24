@@ -1,0 +1,5 @@
+org.MoquiTraining, demo
+trainingId,trainingName,trainingDate,trainingPrice,trainingDuration
+7,Advanced Software Development,2023-12-01,200.00,120
+8,Advanced Project Management,2023-12-10,180.00,90
+9,Advanced Web Design,2023-12-15,150.00,105

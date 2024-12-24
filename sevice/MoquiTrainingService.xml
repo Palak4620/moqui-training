@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+    <!--    <service verb="create" noun="Person">-->
+    <!--        <in-parameters><auto-parameters entity-name="MoquiTraining" include="nonpk"/>-->
+
+    <!--&lt;!&ndash;            <parameter name="trainingDate" required="true" format="MM/dd/yyyy"/>&ndash;&gt;-->
+
+    <!--        </in-parameters>-->
+    <!--        <out-parameters><parameter name="trainingId"/></out-parameters>-->
+    <!--        <actions>-->
+    <!--        <service-call name="create#MoquiTraining" in-map="context">-->
+
+    <!--        </service-call>-->
+    <!--        </actions>-->
+    <!--    </service>-->
+
+
+    <service verb="create" noun="MoquiTraining" type="entity-auto">
+        <in-parameters><auto-parameters entity-name="MoquiTraining" include="nonpk"/>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true" format="yyyy-MM-dd"/>
+        </in-parameters>
+        <out-parameters><parameter name="trainingId"/></out-parameters>
+    </service>
+
+    <service verb="create" noun="MoquiTrainingInline">
+        <in-parameters>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" />
+            <parameter name="trainingPrice"/>
+            <parameter name="trainingDuration"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+
+
+    <service verb="create" noun="MoquiTrainingGroovy">
+        <in-parameters>
+            <!-- Parameters for MoquiTraining entity -->
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true"/>
+            <parameter name="trainingPrice"/>
+            <parameter name="trainingDuration"/>
+        </in-parameters>
+        <out-parameters>
+            <!-- Return the auto-generated trainingId -->
+            <parameter name="trainingId"/>
+        </out-parameters>
+        <actions>
+            <!-- Execute Groovy script -->
+            <groovy-script>
+                <![CDATA[
+                import java.text.SimpleDateFormat
+                import java.util.Date
+
+                // Parse the trainingDate to ensure it's in the correct format
+                String dateString = parameters.trainingDate
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy")
+                Date trainingDate = sdf.parse(dateString)
+
+                // Create a new record in MoquiTraining entity using the parsed data
+                def moquiTraining = context.getEntity("tutorial.MoquiTraining")
+                moquiTraining.set("trainingName", parameters.trainingName)
+                moquiTraining.set("trainingDate", trainingDate)
+                moquiTraining.set("trainingPrice", parameters.trainingPrice)
+                moquiTraining.set("trainingDuration", parameters.trainingDuration)
+
+                // Save the entity and return the trainingId
+                moquiTraining.create()
+                return moquiTraining.trainingId
+            ]]>
+            </groovy-script>
+        </actions>
+    </service>
+
+
+</services>
