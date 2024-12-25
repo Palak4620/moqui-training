@@ -1,0 +1,30 @@
+
+[
+  {
+    "_dataType": "demo"
+  },
+  {
+    "_entity": "MoquiTraining",
+    "trainingId" : "0010",
+    "trainingName" : "moqui",
+    "trainingDate" : "2024-04-17",
+    "trainingPrice" : "20000",
+    "trainingDuration" : "40"
+  },
+  {
+    "_entity": "MoquiTraining",
+    "trainingId" : "0020",
+    "trainingName" : "java",
+    "trainingDate" : "2024-04-20",
+    "trainingPrice" : "20000",
+    "trainingDuration" : "40"
+  },
+  {
+    "_entity": "MoquiTraining",
+    "trainingId" : "0030",
+    "trainingName" : "Apache",
+    "trainingDate" : "2024-02-24",
+    "trainingPrice" : "25000",
+    "trainingDuration" : "25"
+  }
+]
