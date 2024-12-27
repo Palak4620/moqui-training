@@ -29,7 +29,6 @@
         </out-parameters>
         <actions>
             <entity-find entity-name="Party" list="partyDetail">
-                <!-- Condition for partyId if provided -->
                 <econdition field-name="partyId" value="${partyId}" ignore-if-empty="true"/>
                 <select-field field-name="partyId"/>
                 <select-field field-name="partyType"/>
@@ -63,11 +62,9 @@
             <!-- If Party with the given partyId exists, update it, otherwise create it -->
             <if condition="party != null">
                 <then>
-                    <!-- Update the existing Party record -->
                     <service-call name="update#Party" in-map="context" out-map="context"/>
                 </then>
                 <else>
-                    <!-- Create a new Party record -->
                     <service-call name="create#Party" in-map="context" out-map="context"/>
                 </else>
             </if>

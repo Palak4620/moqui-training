@@ -6,22 +6,17 @@
 
     <!-- Resource for Parties -->
     <resource name="parties" require-authentication="anonymous-all">
-        <!-- Get a list of parties -->
         <method type="get">
             <entity name="Party" operation="list"/>
         </method>
-        <!-- Create a new party -->
         <method type="post">
             <entity name="Party" operation="create"/>
         </method>
 
         <id name="partyId">
-            <!-- Get details of a specific party -->
             <method type="get">
                 <entity name="Party" operation="one"/>
             </method>
-
-            <!-- Update details of a specific party -->
             <method type="put">
                 <entity name="Party" operation="update"/>
             </method>
@@ -35,12 +30,8 @@
 <!--            </resource>-->
 
             <resource name="ContactMechs" require-authentication="anonymous-view">
-            <method type="get">
-                <entity name="ContactMech" operation="list"/>
-            </method>
-                <method type="post">
-                    <entity name="ContactMech" operation="create"/>
-                </method>
+            <method type="get"><entity name="ContactMech" operation="list"/></method>
+                <method type="post"><entity name="ContactMech" operation="create"/></method>
                 <id name="contactMechId">
                 <method type="patch">
                     <entity name="ContactMech" operation="update"/>
@@ -50,37 +41,6 @@
                     </method>
                 </id>
             </resource>
-
-            <!-- Sub-resource for Party Roles -->
-            <resource name="roles">
-                <!-- Get roles for a specific party -->
-                <method type="get">
-                    <entity name="PartyRole" operation="list"/>
-                </method>
-
-                <!-- Add a role to a specific party -->
-                <method type="post">
-                    <service name="moqui-training.PartyServices.create#PartyRole"/>
-                </method>
-
-                <!-- Sub-resource for a specific role -->
-                <id name="roleTypeId">
-                    <!-- Get details of a specific role -->
-                    <method type="get">
-                        <entity name="PartyRole" operation="one"/>
-                    </method>
-                    <!-- Update details of a specific role -->
-                    <method type="patch">
-                        <entity name="PartyRole" operation="update"/>
-                    </method>
-                    <!-- Delete a specific role -->
-                    <method type="delete">
-                        <entity name="PartyRole" operation="delete"/>
-                    </method>
-                </id>
-            </resource>
-
-            <!-- Sub-resource for Party Contact Mechanisms -->
         </id>
     </resource>
     <resource name="Products" require-authentication="anonymous-all">
@@ -178,13 +138,9 @@
             <method type="get">
                 <entity name="OrderHeader" operation="one"/>
             </method>
-
-            <!-- Update an order -->
             <method type="patch">
                 <entity name="OrderHeader" operation="update"/>
             </method>
-
-            <!-- Delete an order -->
             <method type="delete">
                 <entity name="OrderHeader" operation="delete"/>
             </method>
