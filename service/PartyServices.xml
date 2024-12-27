@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- Create a Party -->
+    <service verb="create" noun="Party" type="entity-auto">
+    <in-parameters>
+        <auto-parameters entity-name="Party" include="nonpk"/>
+        <parameter name="partyType" required="true"/>
+        <parameter name="firstName" required="true"/>
+        <parameter name="lastName" required="true"/>
+    </in-parameters>
+    <out-parameters>
+        <parameter name="partyId"/>
+    </out-parameters>
+</service>
+
+
+    <!-- Retrieve Party Details -->
+    <service verb="get" noun="Party">
+        <description>
+            To find party records based on party id or party name.
+        </description>
+        <in-parameters>
+            <parameter name="partyId" required="false"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyDetail"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="Party" list="partyDetail">
+                <!-- Condition for partyId if provided -->
+                <econdition field-name="partyId" value="${partyId}" ignore-if-empty="true"/>
+                <select-field field-name="partyId"/>
+                <select-field field-name="partyType"/>
+                <select-field field-name="firstName"/>
+                <select-field field-name="lastName"/>
+            </entity-find>
+        </actions>
+    </service>
+
+
+    <!-- Update a Party -->
+    <service verb="update" noun="Party">
+        <description>
+            To create or update a Party record based on partyId.
+        </description>
+        <in-parameters>
+            <parameter name="partyId"/>
+            <parameter name="partyType" required="true"/>
+            <parameter name="firstName" required="true"/>
+            <parameter name="lastName" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId"/>
+        </out-parameters>
+        <actions>
+            <!-- Find the Party entity by partyId -->
+            <entity-find-one entity-name="Party" value-field="party">
+                <field-map field-name="partyId"/>
+            </entity-find-one>
+
+            <!-- If Party with the given partyId exists, update it, otherwise create it -->
+            <if condition="party != null">
+                <then>
+                    <!-- Update the existing Party record -->
+                    <service-call name="update#Party" in-map="context" out-map="context"/>
+                </then>
+                <else>
+                    <!-- Create a new Party record -->
+                    <service-call name="create#Party" in-map="context" out-map="context"/>
+                </else>
+            </if>
+        </actions>
+    </service>
+
+
+    <!-- Delete a Party -->
+<!--    <service verb="delete" noun="Party">-->
+<!--        <description>-->
+<!--            To delete a Party record based on partyId.-->
+<!--        </description>-->
+<!--        <in-parameters>-->
+<!--            <parameter name="partyId" type="String" required="true"/>-->
+<!--        </in-parameters>-->
+<!--        <actions>-->
+<!--            &lt;!&ndash; Delete the Party entity by partyId &ndash;&gt;-->
+<!--            <entity-delete value-field="partyId" >-->
+<!--                <field-map field-name="partyId" value="${partyId}"/>-->
+<!--            </entity-delete>-->
+<!--        </actions>-->
+<!--    </service>-->
+
+    <!-- Add Contact Mechanism -->
+    <service verb="create" noun="ContactMech">
+        <in-parameters>
+            <parameter name="contactMechId" type="String" required="true"/>
+            <parameter name="partyId" type="String"/>
+            <parameter name="streetAddress" type="String"/>
+            <parameter name="city" type="String" required="true"/>
+            <parameter name="state" type="String" required="true"/>
+            <parameter name="postalCode" type="String" required="true"/>
+        </in-parameters>
+    </service>
+
+    <!-- Retrieve Contact Mechanisms -->
+    <service  verb="get" noun="ContactMech">
+        <in-parameters>
+            <parameter name="partyId" type="String"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMechs" type="List"/>
+        </out-parameters>
+    </service>
+
+    <!-- Update Contact Mechanism -->
+    <service verb="update" noun="ContactMech">
+        <in-parameters>
+            <parameter name="contactMechId" type="String"/>
+            <parameter name="partyId" type="String"/>
+            <parameter name="streetAddress" type="String" required="true"/>
+            <parameter name="city" type="String" required="true"/>
+            <parameter name="state" type="String" required="true"/>
+            <parameter name="postalCode" type="String" required="true"/>
+        </in-parameters>
+    </service>
+
+    <!-- Delete Contact Mechanism -->
+    <service  verb="delete" noun="ContactMech">
+        <in-parameters>
+            <parameter name="contactMechId" type="String"/>
+        </in-parameters>
+    </service>
+</services>

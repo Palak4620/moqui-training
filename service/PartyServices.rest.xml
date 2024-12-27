@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
+          name="party" displayName="Party REST API" version="1.0.0">
+
+    <!-- Resource for Parties -->
+    <resource name="parties" require-authentication="anonymous-all">
+        <!-- Get a list of parties -->
+        <method type="get">
+            <entity name="Party" operation="list"/>
+        </method>
+        <!-- Create a new party -->
+        <method type="post">
+            <entity name="Party" operation="create"/>
+        </method>
+
+        <id name="partyId">
+            <!-- Get details of a specific party -->
+            <method type="get">
+                <entity name="Party" operation="one"/>
+            </method>
+
+            <!-- Update details of a specific party -->
+            <method type="put">
+                <entity name="Party" operation="update"/>
+            </method>
+            <method type="delete">
+                <entity name="Party" operation="delete"/>
+            </method>
+<!--            <resource name="send">-->
+<!--                <method type="post">-->
+<!--                   <service name="moqui-training.PartyServices.update#Party"/>-->
+<!--                </method>-->
+<!--            </resource>-->
+
+            <resource name="ContactMechs" require-authentication="anonymous-view">
+            <method type="get">
+                <entity name="ContactMech" operation="list"/>
+            </method>
+                <method type="post">
+                    <entity name="ContactMech" operation="create"/>
+                </method>
+                <id name="contactMechId">
+                <method type="patch">
+                    <entity name="ContactMech" operation="update"/>
+                </method>
+                    <method type="delete">
+                        <entity name="ContactMech" operation="delete"/>
+                    </method>
+                </id>
+            </resource>
+
+            <!-- Sub-resource for Party Roles -->
+            <resource name="roles">
+                <!-- Get roles for a specific party -->
+                <method type="get">
+                    <entity name="PartyRole" operation="list"/>
+                </method>
+
+                <!-- Add a role to a specific party -->
+                <method type="post">
+                    <service name="moqui-training.PartyServices.create#PartyRole"/>
+                </method>
+
+                <!-- Sub-resource for a specific role -->
+                <id name="roleTypeId">
+                    <!-- Get details of a specific role -->
+                    <method type="get">
+                        <entity name="PartyRole" operation="one"/>
+                    </method>
+                    <!-- Update details of a specific role -->
+                    <method type="patch">
+                        <entity name="PartyRole" operation="update"/>
+                    </method>
+                    <!-- Delete a specific role -->
+                    <method type="delete">
+                        <entity name="PartyRole" operation="delete"/>
+                    </method>
+                </id>
+            </resource>
+
+            <!-- Sub-resource for Party Contact Mechanisms -->
+        </id>
+    </resource>
+    <resource name="Products" require-authentication="anonymous-all">
+        <method type="get">
+            <entity name="Product" operation="list"/>
+        </method>
+        <method type="post">
+            <entity name="Product" operation="create"/>
+        </method>
+        <id name="productId">
+            <method type="patch">
+                <entity name="Product" operation="update"/>
+            </method>
+            <method type="delete">
+                <entity name="Product" operation="delete"/>
+            </method>
+        </id>
+    </resource>
+
+    <!-- OrderHeader REST Resource -->
+<!--    <resource name="OrderHeaders" require-authentication="anonymous-all">-->
+<!--        &lt;!&ndash; Fetch list of orders &ndash;&gt;-->
+<!--        <method type="get">-->
+<!--            <entity name="OrderHeader" operation="list"/>-->
+<!--        </method>-->
+
+<!--        &lt;!&ndash; Create a new order &ndash;&gt;-->
+<!--        <method type="post">-->
+<!--            <entity name="OrderHeader" operation="create"/>-->
+<!--        </method>-->
+
+<!--        &lt;!&ndash; Operations on a specific OrderHeader by orderId &ndash;&gt;-->
+<!--        <id name="orderId">-->
+<!--            &lt;!&ndash; Fetch order details &ndash;&gt;-->
+<!--            <method type="get">-->
+<!--                <entity name="OrderHeader" operation="one"/>-->
+<!--            </method>-->
+
+<!--            &lt;!&ndash; Update an order &ndash;&gt;-->
+<!--            <method type="patch">-->
+<!--                <entity name="OrderHeader" operation="update"/>-->
+<!--            </method>-->
+
+<!--            &lt;!&ndash; Delete an order &ndash;&gt;-->
+<!--            <method type="delete">-->
+<!--                <entity name="OrderHeader" operation="delete"/>-->
+<!--            </method>-->
+<!--        </id>-->
+<!--    </resource>-->
+
+<!--    &lt;!&ndash; OrderItem REST Resource &ndash;&gt;-->
+<!--    <resource name="OrderItems" require-authentication="anonymous-all">-->
+<!--        &lt;!&ndash; Fetch list of order items &ndash;&gt;-->
+<!--        <method type="get">-->
+<!--            <entity name="OrderItem" operation="list"/>-->
+<!--        </method>-->
+
+<!--        &lt;!&ndash; Create a new order item &ndash;&gt;-->
+<!--        <method type="post">-->
+<!--            <entity name="OrderItem" operation="create"/>-->
+<!--        </method>-->
+
+<!--        &lt;!&ndash; Operations on a specific OrderItem by orderItemSeqId &ndash;&gt;-->
+<!--        <id name="orderItemSeqId">-->
+<!--            &lt;!&ndash; Fetch order item details &ndash;&gt;-->
+<!--            <method type="get">-->
+<!--                <entity name="OrderItem" operation="one"/>-->
+<!--            </method>-->
+
+<!--            &lt;!&ndash; Update an order item &ndash;&gt;-->
+<!--            <method type="patch">-->
+<!--                <entity name="OrderItem" operation="update"/>-->
+<!--            </method>-->
+
+<!--            &lt;!&ndash; Delete an order item &ndash;&gt;-->
+<!--            <method type="delete">-->
+<!--                <entity name="OrderItem" operation="delete"/>-->
+<!--            </method>-->
+<!--        </id>-->
+<!--    </resource>-->
+    <resource name="OrderHeaders" require-authentication="anonymous-all">
+        <!-- Fetch list of orders -->
+        <method type="get">
+            <entity name="OrderHeader" operation="list"/>
+        </method>
+
+        <!-- Create a new order -->
+        <method type="post">
+            <entity name="OrderHeader" operation="create"/>
+        </method>
+
+        <!-- Operations on a specific OrderHeader by orderId -->
+        <id name="orderId">
+            <!-- Fetch order details -->
+            <method type="get">
+                <entity name="OrderHeader" operation="one"/>
+            </method>
+
+            <!-- Update an order -->
+            <method type="patch">
+                <entity name="OrderHeader" operation="update"/>
+            </method>
+
+            <!-- Delete an order -->
+            <method type="delete">
+                <entity name="OrderHeader" operation="delete"/>
+            </method>
+        </id>
+    </resource>
+
+</resource>
