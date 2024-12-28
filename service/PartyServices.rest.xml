@@ -23,11 +23,6 @@
             <method type="delete">
                 <entity name="Party" operation="delete"/>
             </method>
-<!--            <resource name="send">-->
-<!--                <method type="post">-->
-<!--                   <service name="moqui-training.PartyServices.update#Party"/>-->
-<!--                </method>-->
-<!--            </resource>-->
 
             <resource name="ContactMechs" require-authentication="anonymous-view">
             <method type="get"><entity name="ContactMech" operation="list"/></method>
@@ -59,68 +54,6 @@
             </method>
         </id>
     </resource>
-
-    <!-- OrderHeader REST Resource -->
-<!--    <resource name="OrderHeaders" require-authentication="anonymous-all">-->
-<!--        &lt;!&ndash; Fetch list of orders &ndash;&gt;-->
-<!--        <method type="get">-->
-<!--            <entity name="OrderHeader" operation="list"/>-->
-<!--        </method>-->
-
-<!--        &lt;!&ndash; Create a new order &ndash;&gt;-->
-<!--        <method type="post">-->
-<!--            <entity name="OrderHeader" operation="create"/>-->
-<!--        </method>-->
-
-<!--        &lt;!&ndash; Operations on a specific OrderHeader by orderId &ndash;&gt;-->
-<!--        <id name="orderId">-->
-<!--            &lt;!&ndash; Fetch order details &ndash;&gt;-->
-<!--            <method type="get">-->
-<!--                <entity name="OrderHeader" operation="one"/>-->
-<!--            </method>-->
-
-<!--            &lt;!&ndash; Update an order &ndash;&gt;-->
-<!--            <method type="patch">-->
-<!--                <entity name="OrderHeader" operation="update"/>-->
-<!--            </method>-->
-
-<!--            &lt;!&ndash; Delete an order &ndash;&gt;-->
-<!--            <method type="delete">-->
-<!--                <entity name="OrderHeader" operation="delete"/>-->
-<!--            </method>-->
-<!--        </id>-->
-<!--    </resource>-->
-
-<!--    &lt;!&ndash; OrderItem REST Resource &ndash;&gt;-->
-<!--    <resource name="OrderItems" require-authentication="anonymous-all">-->
-<!--        &lt;!&ndash; Fetch list of order items &ndash;&gt;-->
-<!--        <method type="get">-->
-<!--            <entity name="OrderItem" operation="list"/>-->
-<!--        </method>-->
-
-<!--        &lt;!&ndash; Create a new order item &ndash;&gt;-->
-<!--        <method type="post">-->
-<!--            <entity name="OrderItem" operation="create"/>-->
-<!--        </method>-->
-
-<!--        &lt;!&ndash; Operations on a specific OrderItem by orderItemSeqId &ndash;&gt;-->
-<!--        <id name="orderItemSeqId">-->
-<!--            &lt;!&ndash; Fetch order item details &ndash;&gt;-->
-<!--            <method type="get">-->
-<!--                <entity name="OrderItem" operation="one"/>-->
-<!--            </method>-->
-
-<!--            &lt;!&ndash; Update an order item &ndash;&gt;-->
-<!--            <method type="patch">-->
-<!--                <entity name="OrderItem" operation="update"/>-->
-<!--            </method>-->
-
-<!--            &lt;!&ndash; Delete an order item &ndash;&gt;-->
-<!--            <method type="delete">-->
-<!--                <entity name="OrderItem" operation="delete"/>-->
-<!--            </method>-->
-<!--        </id>-->
-<!--    </resource>-->
     <resource name="OrderHeaders" require-authentication="anonymous-all">
         <!-- Fetch list of orders -->
         <method type="get">
@@ -129,22 +62,21 @@
 
         <!-- Create a new order -->
         <method type="post">
-            <entity name="OrderHeader" operation="create"/>
+            <service name="PartyServices.create#OrderHeader"/>
         </method>
 
         <!-- Operations on a specific OrderHeader by orderId -->
         <id name="orderId">
             <!-- Fetch order details -->
             <method type="get">
-                <entity name="OrderHeader" operation="one"/>
+                <service name="PartyServices.find#OrderHeader"/>
             </method>
             <method type="patch">
                 <entity name="OrderHeader" operation="update"/>
             </method>
             <method type="delete">
-                <entity name="OrderHeader" operation="delete"/>
+                <service name="PartyServices.delete#OrderHeader"/>
             </method>
         </id>
     </resource>
-
 </resource>

@@ -4,18 +4,17 @@
 
     <!-- Create a Party -->
     <service verb="create" noun="Party" type="entity-auto">
-    <in-parameters>
-        <auto-parameters entity-name="Party" include="nonpk"/>
-        <parameter name="partyType" required="true"/>
-        <parameter name="firstName" required="true"/>
-        <parameter name="lastName" required="true"/>
-    </in-parameters>
-    <out-parameters>
-        <parameter name="partyId"/>
-    </out-parameters>
-</service>
-
-
+        <in-parameters>
+            <auto-parameters entity-name="Party" include="nonpk"/>
+            <parameter name="partyType" required="true"/>
+            <parameter name="firstName" required="true"/>
+            <parameter name="lastName" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId"/>
+        </out-parameters>
+    </service>
+    
     <!-- Retrieve Party Details -->
     <service verb="get" noun="Party">
         <description>
@@ -72,22 +71,6 @@
     </service>
 
 
-    <!-- Delete a Party -->
-<!--    <service verb="delete" noun="Party">-->
-<!--        <description>-->
-<!--            To delete a Party record based on partyId.-->
-<!--        </description>-->
-<!--        <in-parameters>-->
-<!--            <parameter name="partyId" type="String" required="true"/>-->
-<!--        </in-parameters>-->
-<!--        <actions>-->
-<!--            &lt;!&ndash; Delete the Party entity by partyId &ndash;&gt;-->
-<!--            <entity-delete value-field="partyId" >-->
-<!--                <field-map field-name="partyId" value="${partyId}"/>-->
-<!--            </entity-delete>-->
-<!--        </actions>-->
-<!--    </service>-->
-
     <!-- Add Contact Mechanism -->
     <service verb="create" noun="ContactMech">
         <in-parameters>
@@ -122,10 +105,81 @@
         </in-parameters>
     </service>
 
-    <!-- Delete Contact Mechanism -->
     <service  verb="delete" noun="ContactMech">
         <in-parameters>
             <parameter name="contactMechId" type="String"/>
         </in-parameters>
     </service>
+
+
+    <service verb="create" noun="OrderHeader">
+        <in-parameters>
+            <auto-parameters entity-name="OrderHeader" include="nonpk" required="true"/>
+            <parameter name="listOfItems" type="List" required="true">
+                <parameter name="orderItem" type="Map" required="true">
+                    <parameter name="productId" required="true"/>
+                    <parameter name="quantity" required="true"/>
+                    <parameter name="status"/>
+                </parameter>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#OrderHeader" in-map="context" out-map="context"/>
+            <iterate list="listOfItems" entry="item">
+                <set field="item.orderId" from="context.orderId"/>
+                <service-call name="create#OrderItem" in-map="item"/>
+            </iterate>
+        </actions>
+    </service>
+
+    <service verb="create" noun="OrderItem" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderItem" include="nonpk"/>
+            <parameter name="quantity" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderItemSeqId"/>
+        </out-parameters>
+        </service>
+
+    <service verb="delete" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find entity-name="OrderItem" list="orderItems">
+                <econdition field-name="orderId" operator="equals" value="context.orderId"/>
+            </entity-find>
+            <iterate list="orderItems" entry="orderItem">
+                <service-call name="delete#OrderItem" in-map="orderItem"/>
+            </iterate>
+            <service-call name="delete#OrderHeader" in-map="context"/>
+        </actions>
+    </service>
+
+    <service verb="delete" noun="OrderItem" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderItem" include="pk" required="true"/>
+        </in-parameters>
+    </service>
+
+    <service verb="find" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="header"/>
+            <parameter name="listOfItems" type="List"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="header"/>
+            <entity-find entity-name="OrderItem" list="listOfItems">
+                <econdition field-name="orderId" from="context.orderId"/>
+            </entity-find>
+        </actions>
+    </service>
+
 </services>
