@@ -53,8 +53,8 @@
                 <entity name="Product" operation="delete"/>
             </method>
         </id>
-    </resource>
-    <resource name="OrderHeaders" require-authentication="anonymous-all">
+        </resource>
+ <resource name="OrderHeaders" require-authentication="anonymous-all">
         <!-- Fetch list of orders -->
         <method type="get">
             <entity name="OrderHeader" operation="list"/>
