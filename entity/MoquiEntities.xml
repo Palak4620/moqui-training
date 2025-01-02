@@ -51,7 +51,7 @@
         <relationship type="one" related="ContactMech" title="BillingContactMech">
             <key-map field-name="billingContactMechId"/>
         </relationship>
-        <relationship type="one" related="OrderItem" title="OrderItems">
+        <relationship type="many" related="OrderItem" title="OrderItems">
             <key-map field-name="orderId"/>
         </relationship>
     </entity>
