@@ -39,13 +39,13 @@
         </id>
     </resource>
     <resource name="Products" require-authentication="anonymous-all">
-        <method type="get">
-            <entity name="Product" operation="list"/>
-        </method>
         <method type="post">
             <entity name="Product" operation="create"/>
         </method>
         <id name="productId">
+            <method type="get">
+                <entity name="Product" operation="list"/>
+            </method>
             <method type="patch">
                 <entity name="Product" operation="update"/>
             </method>
@@ -70,6 +70,9 @@
             <!-- Fetch order details -->
             <method type="get">
                 <service name="PartyServices.find#OrderHeader"/>
+            </method>
+            <method type="post">
+                <entity name="OrderItem" operation="create"/>
             </method>
             <method type="patch">
                 <entity name="OrderHeader" operation="update"/>
